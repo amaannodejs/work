@@ -1,0 +1,25 @@
+{
+  "name": "elastic-search",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/amaannodejs/work.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amaannodejs/work/issues"
+  },
+  "homepage": "https://github.com/amaannodejs/work#readme",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.2.1",
+    "body-parser": "^1.20.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1"
+  }
+}
