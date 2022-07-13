@@ -4,7 +4,7 @@ const {
 module.exports = new Client({
     node: "http://localhost:9200",
     auth: {
-        username: "Amaan",
-        password: "9868439196"
+        username: process.env.username,
+        password: process.env.password
     }
 })
