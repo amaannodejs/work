@@ -1,22 +1,46 @@
-const functions = require("firebase-functions"),
-      admin=require('firebase-admin'),
-      serviceAccount = require("../credentials/serviceAccountKey.json")
+require('dotenv').config()
+const {functions,admin}=require('./firebase-config'),
       express=require('express'),
       cors=require('cors'),
       app=express(),
-      admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
-      });
+      adminRoutes=require('./routes/admin'),
+      authRoutes=require('./routes/auth'),
+      resourcesRoute=require('./routes/resources');
+      
 
 app.use(cors({origin:true}))
 
 
-app.get('/',(req,res)=>{
-    res.send('up')
+//routes
+app.use('/admin',adminRoutes)
+app.use('/auth',authRoutes)
+// app.use('/resources',resourcesRoute)
+
+
+
+
+
+app.use((err,req,res,next)=>{
+    if (!err.status) {
+        err.status = 500
+    }
+    //console.log(err)
+    return res.status(err.status).json({
+        "error": String(err)
+    })
+
 })
 
 
 
+
+
+
+//testing
+//database check
+// const User=require('./models/users')
+// const Amaan=new User('amaan@jkdv.d',"adfasf",'Amaan',['Admin'])
+// console.log(Amaan.save())
 
 
 
