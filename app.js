@@ -62,21 +62,31 @@ app.post('/getDataFromStartingCharacter', async (req, res) => {
     const {
         character
     } = req.body
-    const result=[]
+    const results=[]
+    const wresult=[]
     const fields=["character","quote"]
 
     for(let field of fields){
-        const queryResult=await elasticClient.search({
+        let queryResult=await elasticClient.search({
             index: 'game-of-thrones',
             _source:[field],
             query: {
                 prefix: {[field]:`${character[0].toLowerCase()}` }
             }
         })
-        result.push(...queryResult.hits.hits)
+        queryResult=queryResult.hits.hits.map(ele=>ele._source[field])
+        results.push(...queryResult)
+    }
+    for(let result of results){
+        result=result.split(" ")
+        result.forEach(ele=>{
+            if(ele[0].toLowerCase()==character[0].toLowerCase()){
+                wresult.push(ele)
+            }
+        })
     }
     
-    return res.json(result)
+    return res.json(wresult)
 })
 
 //schema
