@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express'),
     app = express(),
     elasticClient = require('./services/elasticSearch'),
@@ -57,6 +58,26 @@ app.post('/getGotByCharacter', async (req, res) => {
     return res.json(result)
 })
 
+app.post('/getDataFromStartingCharacter', async (req, res) => {
+    const {
+        character
+    } = req.body
+    const result=[]
+    const fields=["character","quote"]
+
+    for(let field of fields){
+        const queryResult=await elasticClient.search({
+            index: 'game-of-thrones',
+            _source:[field],
+            query: {
+                prefix: {[field]:`${character[0].toLowerCase()}` }
+            }
+        })
+        result.push(...queryResult.hits.hits)
+    }
+    
+    return res.json(result)
+})
 
 //schema
 // await elasticClient.index({
